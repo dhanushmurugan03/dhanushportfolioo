@@ -484,7 +484,7 @@
           event.preventDefault();
 
           emailjs.sendForm('service_2udfojm', 'template_wmpr0fe', this)
-            .then(() => {
+            .then((response) => {
               status.textContent = "Message sent successfully!";
               status.style.color = "lightgreen";
               form.reset();
