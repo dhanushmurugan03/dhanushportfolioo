@@ -251,6 +251,7 @@
 
 
   
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
   <header>
@@ -471,29 +472,32 @@
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
-    (function(){
-      emailjs.init("0couXcPCAg1E2oDaO"); // Replace with your EmailJS user ID
-    })();
+    (function() {
+      emailjs.init("0couXcPCAg1E2oDaO"); // Replace with your EmailJS user ID (Public Key)
 
-    // Contact form submission handling
-    const form = document.getElementById('contact-form');
-    const status = document.getElementById('form-status');
+      // Function to handle form submission after EmailJS is initialized
+      function setupFormSubmission() {
+        const form = document.getElementById('contact-form');
+        const status = document.getElementById('form-status');
 
-    form.addEventListener('submit', function(event) {
-      event.preventDefault();
+        form.addEventListener('submit', function(event) {
+          event.preventDefault();
 
-      emailjs.sendForm('service_2udfojm','template_wmpr0fe', this)
-        .then(() => {
-          status.textContent = "Message sent successfully!";
-          status.style.color = "lightgreen";
-          form.reset();
-        }, (err) => {
-          status.textContent = "Failed to send message";
-          status.style.color = "red";
-          // Optionally, log the error for debugging:
-          // console.error('EmailJS error:', err);
+          emailjs.sendForm('service_2udfojm', 'template_wmpr0fe', this)
+            .then(() => {
+              status.textContent = "Message sent successfully!";
+              status.style.color = "lightgreen";
+              form.reset();
+            }, (err) => {
+              status.textContent = "Failed to send message: " + err.message; // Display error message
+              status.style.color = "red";
+              console.error('EmailJS error:', err); // Log the error for debugging
+            });
         });
-    });
+      }
+
+      setupFormSubmission(); // Call the function to set up the form
+    })();
   </script>
 </body>
 </html>
