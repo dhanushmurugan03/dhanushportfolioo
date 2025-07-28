@@ -248,6 +248,9 @@
       transform: rotateY(180deg);
     }
   </style>
+
+
+  
 </head>
 <body>
   <header>
@@ -453,35 +456,43 @@
   <section id="contact">
     <div class="section-content">
       <h2>Contact Me</h2>
-      <form>
-        <input type="text" placeholder="Your Name" required />
-        <input type="email" placeholder="Your Email" required />
-        <textarea placeholder="Your Message" required></textarea>
+      <form id="contact-form">
+        <input type="text" placeholder="Your Name" name="user_name" required />
+        <input type="email" placeholder="Your Email" name="user_email" required />
+        <textarea placeholder="Your Message" name="message" required></textarea>
         <button type="submit">Send</button>
       </form>
+      <div id="form-status" style="margin-top: 10px; font-weight: bold;"></div>
     </div>
   </section>
 
   <footer>
     <p>&copy; 2025 Dhanush Murugan. All rights reserved.</p>
   </footer>
-
-  <!-- Floating Corner Icon -->
-  <div class="corner-icon">
-    <i class="fas fa-code"></i>
-  </div>
-
-  <!-- JS for click-to-flip (add before </body>) -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
-    document.querySelectorAll('.flip-card').forEach(card => {
-      card.addEventListener('click', function() {
-        this.classList.toggle('flipped');
-      });
-      card.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-          this.classList.toggle('flipped');
-        }
-      });
+    (function(){
+      emailjs.init("0couXcPCAg1E2oDaO"); // Replace with your EmailJS user ID
+    })();
+
+    // Contact form submission handling
+    const form = document.getElementById('contact-form');
+    const status = document.getElementById('form-status');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      emailjs.sendForm('service_2udfojm','template_wmpr0fe', this)
+        .then(() => {
+          status.textContent = "Message sent successfully!";
+          status.style.color = "lightgreen";
+          form.reset();
+        }, (err) => {
+          status.textContent = "Failed to send message";
+          status.style.color = "red";
+          // Optionally, log the error for debugging:
+          // console.error('EmailJS error:', err);
+        });
     });
   </script>
 </body>
